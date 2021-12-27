@@ -4,11 +4,33 @@ import pyautogui
 
 
 def get_screenshot_params(pictures_per_page: int):
+    """
+    Return a list of tuples which describe the position and dimension of each screenshot.
+
+    The user is asked to move the cursor to the upper left and lower right corner of each screenshot.
+    From these two XY coordinates, the required tuple with (x, y, width, height) is calculated and returned for each picture.
+
+    Because there is no method in pyautogui to listen to a mouse event, the user has to manually confirm the position by raising an
+    KeyboardInterrupt, which is then caught and the position saved.
+
+    Parameters
+    ----------
+    pictures_per_page : int
+        How many screenshots per page
+
+    Returns
+    -------
+    List[tuple]
+        Parameteres required by method 'pyautogui.screenshot()'.
+        Length of list is equal to param 'pictures_per_page'
+    """
     positions = []
 
     for page in range(pictures_per_page):
         print(f'----- Picture {page + 1} -----')
 
+        # 1st tuple: upper left corner of screenshot
+        # 2nd tuple: lower right corner
         coords = [(0, 0), (0, 0)]
 
         for j in range(2):
@@ -30,6 +52,16 @@ def get_screenshot_params(pictures_per_page: int):
 
 
 def get_next_page_position():
+    """
+    Get the XY Coordinates of the screen where the mouse will be clicked when switching the page.
+
+    Detailed explanation in method 'get_screenshot_params()'.
+
+    Returns
+    -------
+    tuple
+        xy coordinates
+    """
     try:
         while True:
             pos = pyautogui.position()
@@ -41,6 +73,21 @@ def get_next_page_position():
 
 
 def take_screenshots(page_count: int, screenshot_params: List[tuple], next_page_pos: tuple, page_swap_delay: float=0.1):
+    """
+    Capture screenshots with the given paramters.
+
+    Parameters
+    ----------
+    page_count : int
+        how many pages to switch
+    screenshot_params : List[tuple]
+        List of parameters for method pyautogui.screenshot().
+        Each tuple contains (x, y, width, height).
+    next_page_pos : tuple
+        XY coordinates where to click the mouse to switch the page
+    page_swap_delay : float, optional
+        delay after switching the page, by default 0.1
+    """
     for page in range(page_count):
         for i, pos in enumerate(screenshot_params):
             pyautogui.screenshot(f'page{page + 1}_pic{i + 1}.png', pos)
