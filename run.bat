@@ -1,1 +1,1 @@
-python write.py
+python main.py

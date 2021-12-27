@@ -72,7 +72,7 @@ def get_next_page_position():
     return pos[0], pos[1]
 
 
-def take_screenshots(page_count: int, screenshot_params: List[tuple], next_page_pos: tuple, page_swap_delay: float=0.1):
+def take_screenshots(page_count: int, screenshot_params: List[tuple], next_page_pos: tuple, page_swap_delay: float = 0.1):
     """
     Capture screenshots with the given paramters.
 
